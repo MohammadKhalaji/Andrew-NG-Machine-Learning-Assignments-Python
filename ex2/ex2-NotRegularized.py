@@ -9,7 +9,10 @@ def main():
     plot_points(X, y)
     theta = np.zeros((n, 1))
     theta = minimize(lambda t: cost(X, y, t), theta, method='Nelder-Mead').x.reshape((n, 1))
-    print(theta)
+    print('Training accuracy: %{0}'.format(get_accuracy(X, y, theta)))
+    plot_decision_boundary(X, theta)
+    plot.show()
+
 
 
 def read_file(file_name, delimiter):
@@ -27,7 +30,7 @@ def plot_points(X, y):
     o_x = []
     o_y = []
     for i in range(0, X.shape[0]):
-        if y[i][0] > 0.5:
+        if y[i][0] == 1:
             o_x.append(X[i][1])
             o_y.append(X[i][2])
         else:
@@ -65,6 +68,24 @@ def predict(x, theta):
         return 1
     return 0
 
+
+def get_accuracy(X, y, theta):
+    m = X.shape[0]
+    corrects = 0
+    for i in range(0, m):
+        x = np.array([X[i]]).T
+        if predict(x, theta) == y[i]:
+            corrects += 1
+    return 100 * corrects / m
+
+
+def plot_decision_boundary(X, theta):
+    xs = X.T[1]
+    t0 = theta[0][0]
+    t1 = theta[1][0]
+    t2 = theta[2][0]
+    ys = [(-t0 - t1*x)/t2 for x in xs]
+    plot.plot(xs, ys, c='b')
 
 
 if __name__ == '__main__':
