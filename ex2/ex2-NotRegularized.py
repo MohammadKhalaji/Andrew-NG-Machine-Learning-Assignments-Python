@@ -8,7 +8,7 @@ def main():
     X, y, m, n = read_file(file_name, ',')
     plot_points(X, y)
     theta = np.zeros((n, 1))
-    theta = minimize(lambda t: cost(X, y, t), theta, method='BFGS', jac=True)
+    theta = minimize(lambda t: cost(X, y, t), theta, method='Nelder-Mead').x.reshape((n, 1))
     print(theta)
 
 
@@ -57,6 +57,14 @@ def gradient(X, y, theta):
     ans = np.matmul(X.T, ans)
 
     return (1 / m) * ans
+
+
+def predict(x, theta):
+    ans = np.matmul(theta.T, x)[0][0]
+    if ans >= 0:
+        return 1
+    return 0
+
 
 
 if __name__ == '__main__':
