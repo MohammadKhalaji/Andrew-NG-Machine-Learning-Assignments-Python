@@ -9,4 +9,4 @@ my solutions to Coursera Machine Learning course, using python
   * `ex1-sklearn.py` : Linear regression using sci-kit learn module
 
 * ex2 - Logistic Regression
-  * `ex2-NotRegularized.py` : typical solution to a 2-feature logistic regression problem, using scipy.optimize to minimize the cost function
+  * `ex2-NotRegularized.py` : Typical solution to a 2-feature logistic regression problem, using scipy.optimize to minimize the cost function
