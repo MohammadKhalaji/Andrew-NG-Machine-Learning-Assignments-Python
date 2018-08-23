@@ -5,11 +5,7 @@ import matplotlib.pyplot as plot
 def main():
     file_name = 'ex2data1.txt'
     X, y, m, n = read_file(file_name, ',')
-    print(X)
-    print(y)
     plot_points(X, y)
-    plot.show()
-
 
 
 def read_file(file_name, delimiter):
@@ -35,6 +31,27 @@ def plot_points(X, y):
             z_y.append(X[i][2])
     plot.scatter(o_x, o_y, marker='+', c='g')
     plot.scatter(z_x, z_y, marker='.', c='r')
+
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+
+def h(X, theta):
+    return sigmoid(np.matmul(X, theta))
+
+
+def cost(X, y, theta):
+    m = X.shape[0]
+    ans = np.matmul(y.T, np.log(h(X, theta))) + np.matmul(1 - y, np.log(1 - h(X, theta)))
+    return (-1 / m) * ans
+
+
+def gradient(X, y, theta):
+    m = X.shape[0]
+    ans = h(X, theta) - y
+    ans = np.matmul(X.T, ans)
+    return (1 / m) * ans
 
 
 if __name__ == '__main__':
