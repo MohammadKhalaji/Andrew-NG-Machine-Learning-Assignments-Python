@@ -1,4 +1,4 @@
-# Andrew-NG-Machine-Learning-Assignments-Python
+# Andrew NG Machine Learning - Assignments with Python!
 my solutions to Coursera Machine Learning course, using python
 
 ## Assignments
