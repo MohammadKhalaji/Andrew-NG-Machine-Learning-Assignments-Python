@@ -12,6 +12,15 @@ def main():
     print('Training accuracy: %{0}'.format(get_accuracy(X, y, theta)))
     plot_decision_boundary(X, theta)
     plot.show()
+    while True:
+        inp = '1,'
+        inp += input('Enter x to predict value, split by comma:\n')
+        inp = inp.replace(' ', '')
+        inp = inp.split(',')
+        inp = list(map(float, inp))
+        x = np.array([inp]).T
+        print('resutl: ', predict(x, theta))
+        print('----------------------')
 
 
 
@@ -22,6 +31,7 @@ def read_file(file_name, delimiter):
     m = points.shape[0]
     n = points.shape[1] - 1
     return points[..., 0:n], points[..., n:], m, n
+
 
 
 def plot_points(X, y):
