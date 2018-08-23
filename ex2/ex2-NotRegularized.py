@@ -1,11 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plot
+from scipy.optimize import minimize
 
 
 def main():
     file_name = 'ex2data1.txt'
     X, y, m, n = read_file(file_name, ',')
     plot_points(X, y)
+    theta = np.zeros((n, 1))
+    theta = minimize(lambda t: cost(X, y, t), theta, method='BFGS', jac=True)
+    print(theta)
 
 
 def read_file(file_name, delimiter):
@@ -43,7 +47,7 @@ def h(X, theta):
 
 def cost(X, y, theta):
     m = X.shape[0]
-    ans = np.matmul(y.T, np.log(h(X, theta))) + np.matmul(1 - y, np.log(1 - h(X, theta)))
+    ans = np.matmul(y.T, np.log(h(X, theta))) + np.matmul((1 - y).T, np.log(1 - h(X, theta)))
     return (-1 / m) * ans
 
 
@@ -51,6 +55,7 @@ def gradient(X, y, theta):
     m = X.shape[0]
     ans = h(X, theta) - y
     ans = np.matmul(X.T, ans)
+
     return (1 / m) * ans
 
 
