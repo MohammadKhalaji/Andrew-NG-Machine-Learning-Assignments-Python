@@ -11,6 +11,11 @@ def main():
     print('Training accuracy: %{0}'.format(get_accuracy(X, y, theta)))
     plot_decision(X, theta)
     plot_points(X, y)
+    plot.xlabel('Exam 1 Score')
+    plot.ylabel('Exam 2 Score')
+    plot.title('Logistic Regression - Not Regularized\nNon-Polynomial Features  ')
+    plot.legend()
+    plot.savefig('ex2-NotRegularized.png', dpi=300)
     plot.show()
     while True:
         inp = '1,'
@@ -44,8 +49,8 @@ def plot_points(X, y):
         else:
             z_x.append(X[i][1])
             z_y.append(X[i][2])
-    plot.scatter(o_x, o_y, marker='+', c='g')
-    plot.scatter(z_x, z_y, marker='.', c='r')
+    plot.scatter(o_x, o_y, marker='+', c='g', label='Admitted')
+    plot.scatter(z_x, z_y, marker='.', c='r', label='Not Admitted')
 
 
 def sigmoid(z):
@@ -91,8 +96,8 @@ def plot_decision(X, theta):
     # Build the grid to plot:
     x_min, x_max = X[..., 1].min() - 1, X[..., 1].max() + 1
     y_min, y_max = X[..., 2].min() - 1, X[..., 2].max() + 1
-    x = np.arange(x_min, x_max, 0.25)
-    y = np.arange(y_min, y_max, 0.25)
+    x = np.arange(x_min, x_max, 0.05)
+    y = np.arange(y_min, y_max, 0.05)
     xx, yy = np.meshgrid(x, y)
 
     # Build the data:
