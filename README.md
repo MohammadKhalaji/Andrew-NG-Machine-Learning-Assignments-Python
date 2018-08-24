@@ -10,4 +10,4 @@ my solutions to Coursera Machine Learning course, using python
 
 * ex2 - Logistic Regression
   * `ex2-NotRegularized.py` : Typical solution to a 2-feature logistic regression problem, using scipy.optimize to minimize the cost function
-  * `ex2-Regularized.py` : Solution to a 2-feature logistic regression problem with feature mapping
+  * `ex2-Regularized.py` : Solution to a 2-feature logistic regression problem with polynomial features (degree = 6)
