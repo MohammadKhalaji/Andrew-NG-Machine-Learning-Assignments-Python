@@ -6,11 +6,11 @@ from scipy.optimize import minimize
 def main():
     file_name = 'ex2data1.txt'
     X, y, m, n = read_file(file_name, ',')
-    plot_points(X, y)
     theta = np.zeros((n, 1))
     theta = minimize(lambda t: cost(X, y, t), theta, method='Nelder-Mead').x.reshape((n, 1))
     print('Training accuracy: %{0}'.format(get_accuracy(X, y, theta)))
-    plot_decision_boundary(X, theta)
+    plot_decision(X, theta)
+    plot_points(X, y)
     plot.show()
     while True:
         inp = '1,'
@@ -19,9 +19,8 @@ def main():
         inp = inp.split(',')
         inp = list(map(float, inp))
         x = np.array([inp]).T
-        print('resutl: ', predict(x, theta))
+        print('result: ', predict(x, theta))
         print('----------------------')
-
 
 
 def read_file(file_name, delimiter):
@@ -31,7 +30,6 @@ def read_file(file_name, delimiter):
     m = points.shape[0]
     n = points.shape[1] - 1
     return points[..., 0:n], points[..., n:], m, n
-
 
 
 def plot_points(X, y):
@@ -89,13 +87,22 @@ def get_accuracy(X, y, theta):
     return 100 * corrects / m
 
 
-def plot_decision_boundary(X, theta):
-    xs = X.T[1]
-    t0 = theta[0][0]
-    t1 = theta[1][0]
-    t2 = theta[2][0]
-    ys = [(-t0 - t1*x)/t2 for x in xs]
-    plot.plot(xs, ys, c='b')
+def plot_decision(X, theta):
+    # Build the grid to plot:
+    x_min, x_max = X[..., 1].min() - 1, X[..., 1].max() + 1
+    y_min, y_max = X[..., 2].min() - 1, X[..., 2].max() + 1
+    x = np.arange(x_min, x_max, 0.25)
+    y = np.arange(y_min, y_max, 0.25)
+    xx, yy = np.meshgrid(x, y)
+
+    # Build the data:
+    zz = np.zeros(xx.shape)
+    for i in range(0, xx.shape[0]):
+        for j in range(0, xx.shape[1]):
+            my_x = np.array([[1, xx[i][j], yy[i][j]]]).T
+            zz[i][j] = predict(my_x, theta)
+
+    plot.pcolormesh(xx, yy, zz)
 
 
 if __name__ == '__main__':
