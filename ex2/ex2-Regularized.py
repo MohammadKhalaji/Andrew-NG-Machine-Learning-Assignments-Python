@@ -21,7 +21,6 @@ def main():
     ans2 = minimize(lambda t: cost(X, y, t, lmd=2), theta, method='Nelder-Mead').x.reshape((n, 1))
     print('Fine training accuracy: %{0}'.format(get_accuracy(X, y, ans2)))
 
-
     #underfit
     ans3 = minimize(lambda t: cost(X, y, t, lmd=100), theta, method='Nelder-Mead').x.reshape((n, 1))
     print('Underfit training accuracy: %{0}'.format(get_accuracy(X, y, ans3)))
