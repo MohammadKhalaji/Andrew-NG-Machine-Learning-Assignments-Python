@@ -20,8 +20,15 @@ def main():
     #underfit
     ans3 = minimize(lambda t: cost(X, y, t, lmd=100), theta, method='Nelder-Mead').x.reshape((n, 1))
 
-    print(h(np.array([0, 0, 0.2]).T, ans2))
 
+    while True:
+        inp = input('Enter x to predict value, split by comma:\n')
+        inp = inp.replace(' ', '')
+        inp = inp.split(',')
+        inp = list(map(float, inp))
+        x = np.array([inp]).T
+        print('resutl: ', predict(x, ans2))
+        print('----------------------')
 
 
 def read_file(file_name, delimiter):
@@ -57,12 +64,12 @@ def map_features(X):
     cur = []
     m = X.shape[0]
     for k in range(0, m):
-        newX.append(map_feature(X[k]))
+        newX.append(map_single_feature(X[k]))
     X = np.array(newX)
     return X, X.shape[1]
 
 
-def map_feature(x):
+def map_single_feature(x):
     deg = 7
     cur = []
     for i in range(0, deg):
@@ -79,6 +86,16 @@ def h(X, theta):
     return sigmoid(np.matmul(X, theta))
 
 
+def single_h(x, theta):
+    return sigmoid(np.matmul(theta.T, x))
+
+
+def predict(x, theta):
+    if single_h(x, theta) >= 0.5:
+        return 1
+    return 0
+
+
 def cost(X, y, theta, lmd):
     n = X.shape[1]
     m = X.shape[0]
@@ -90,6 +107,9 @@ def cost(X, y, theta, lmd):
     ans += (lmd / (2 * m)) * penalize
     return ans
 
+
+def plot_decision_boundary():
+    pass
 
 
 if __name__ == '__main__':
