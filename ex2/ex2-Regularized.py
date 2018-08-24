@@ -25,9 +25,14 @@ def main():
     ans3 = minimize(lambda t: cost(X, y, t, lmd=100), theta, method='Nelder-Mead').x.reshape((n, 1))
     print('Underfit training accuracy: %{0}'.format(get_accuracy(X, y, ans3)))
 
-    plot_points(originalX, y)
-    plot.show()
     plot_decision_boundary(X, ans2, originalX)
+    plot_points(originalX, y)
+
+    plot.xlabel('Microchip Test 1')
+    plot.ylabel('Microchip Test 2')
+    plot.title('Logistic Regression - Regularized\nPolynomial Features  ')
+    plot.legend()
+    plot.savefig('ex2-Regularized.png', dpi=300)
     plot.show()
 
 
@@ -63,9 +68,8 @@ def plot_points(X, y):
         else:
             z_x.append(X[i][0])
             z_y.append(X[i][1])
-    plot.scatter(o_x, o_y, marker='+', c='g')
-    plot.scatter(z_x, z_y, marker='.', c='r')
-
+    plot.scatter(o_x, o_y, marker='+', c='g', label='y = 1')
+    plot.scatter(z_x, z_y, marker='.', c='r', label='y = 0')
 
 
 def map_features(X):
@@ -102,7 +106,7 @@ def single_h(x, theta):
 
 
 def predict(x, theta):
-    if single_h(x, theta) >= 0.5:
+    if single_h(x, theta).reshape((1, 1))[0][0] >= 0.5:
         return 1
     return 0
 
@@ -120,18 +124,22 @@ def cost(X, y, theta, lmd):
 
 
 def plot_decision_boundary(X, theta, originalX):
-    circles = []
+    # Build the grid to plot:
+    x_min, x_max = originalX[..., 0].min() - 0.25, originalX[..., 0].max() + 0.25
+    y_min, y_max = originalX[..., 1].min() - 0.25, originalX[..., 1].max() + 0.25
+    x = np.arange(x_min, x_max, 0.01)
+    y = np.arange(y_min, y_max, 0.01)
+    xx, yy = np.meshgrid(x, y)
 
-    for i in range(0, X.shape[0]):
-        if predict(X[i], theta):
-            c = plot.Circle((originalX[i][0], originalX[i][1]), 0.1, color='y')
-        else:
-            c = plot.Circle((originalX[i][0], originalX[i][1]), 0.1, color='g')
-        circles.append(c)
+    # Build the data:
+    zz = np.zeros(xx.shape)
+    for i in range(0, xx.shape[0]):
+        for j in range(0, xx.shape[1]):
+            my_x = [xx[i][j], yy[i][j]]
+            my_x = map_single_feature(my_x)
+            zz[i][j] = predict(my_x, theta)
 
-    fig, ax = plot.subplots()
-    for circle in circles:
-        ax.add_artist(circle)
+    plot.pcolormesh(xx, yy, zz)
 
 
 def get_accuracy(X, y, theta):
