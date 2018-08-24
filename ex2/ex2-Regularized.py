@@ -4,21 +4,33 @@ from scipy.optimize import *
 
 
 def main():
+
     file_name = 'ex2data2.txt'
     X, y, m, n = read_file(file_name, ',')
-    plot_points(X, y)
+    originalX = X
     X, n = map_features(X)
     theta = np.zeros((n, 1))
 
 
     # overfit
     ans1 = minimize(lambda t: cost(X, y, t, lmd=0), theta, method='Nelder-Mead').x.reshape((n, 1))
+    print('Overfit training accuracy: %{0}'.format(get_accuracy(X, y, ans1)))
+
 
     # fine
-    ans2 = minimize(lambda t: cost(X, y, t, lmd=1), theta, method='Nelder-Mead').x.reshape((n, 1))
+    ans2 = minimize(lambda t: cost(X, y, t, lmd=2), theta, method='Nelder-Mead').x.reshape((n, 1))
+    print('Fine training accuracy: %{0}'.format(get_accuracy(X, y, ans2)))
+
 
     #underfit
     ans3 = minimize(lambda t: cost(X, y, t, lmd=100), theta, method='Nelder-Mead').x.reshape((n, 1))
+    print('Underfit training accuracy: %{0}'.format(get_accuracy(X, y, ans3)))
+
+    plot_points(originalX, y)
+    plot.show()
+    plot_decision_boundary(X, ans2, originalX)
+    plot.show()
+
 
 
     while True:
@@ -108,8 +120,29 @@ def cost(X, y, theta, lmd):
     return ans
 
 
-def plot_decision_boundary():
-    pass
+def plot_decision_boundary(X, theta, originalX):
+    circles = []
+
+    for i in range(0, X.shape[0]):
+        if predict(X[i], theta):
+            c = plot.Circle((originalX[i][0], originalX[i][1]), 0.1, color='y')
+        else:
+            c = plot.Circle((originalX[i][0], originalX[i][1]), 0.1, color='g')
+        circles.append(c)
+
+    fig, ax = plot.subplots()
+    for circle in circles:
+        ax.add_artist(circle)
+
+
+def get_accuracy(X, y, theta):
+    m = X.shape[0]
+    corrects = 0
+    for i in range(0, m):
+        x = np.array([X[i]]).T
+        if predict(x, theta) == y[i]:
+            corrects += 1
+    return 100 * corrects / m
 
 
 if __name__ == '__main__':
