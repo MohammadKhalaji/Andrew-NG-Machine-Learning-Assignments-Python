@@ -12,3 +12,4 @@ my solutions to Coursera Machine Learning course, using python
   
 * ex3 - Logistic Regression and Neural Networks
   * `ex3-logistic.ipynb` : Multi-Class logistic regression (mnist dataset), using gradient descent (Method 1) and scikit learn (Method 2)
+  * `ex3-neural.ipynb`: Implementation of forward-propagation in order to find training accuracy of a given neural network
