@@ -4,7 +4,7 @@ my solutions to Coursera Machine Learning course, using python
 ## Assignments
 
 * ex1 - Linear Regression
-  * `ex1-oneVariable.ipynb` : Linear regression (one variable), gradient descent and scikit learn
+  * `ex1-oneVariable.ipynb` : Linear regression (one variable), gradient descent and scikit learn 
   * `ex1-multipleVariables.ipynb` : Linear regression (multiple variable), gradient descent and scikit learn
 
 * ex2 - Logistic Regression
