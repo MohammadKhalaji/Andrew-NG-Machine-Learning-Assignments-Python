@@ -4,7 +4,7 @@ my solutions to Coursera Machine Learning course, using python
 ## Assignments
 
 * ex1 - Linear Regression
-  * `ex1-oneVariable.ipynb` : Linear regression (one variable), gradient descent and scikit learn 
+  * `ex1-oneVariable.ipynb` : Linear regression (one variable), gradient descent and scikit learn
   * `ex1-multipleVariables.ipynb` : Linear regression (multiple variable), gradient descent and scikit learn
 
 * ex2 - Logistic Regression
@@ -16,3 +16,6 @@ my solutions to Coursera Machine Learning course, using python
 
 * ex4 - Neural Networks
   * `ex4.ipynb` : A NeuralNetwork class, generalized to whatever network architecture user wants, using fmin_cg to minimize cost function
+
+* ex4 - Reglarized Linear Regression and Bias vs. Variance
+  * `ex5.ipynb` : Linear regression with regularization, learning curves, polynomial linear regression with plots
